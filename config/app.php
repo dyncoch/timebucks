@@ -76,7 +76,8 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT'),
+        'salt' => env('SECURITY_SALT', 'f6ce417f95da20a3e3714c78fb9bd760c9f9499ab2532d1aee0e02c2582554b8'),
+        'encryptionKey' => '&fR!y_r~x(/Gm("78lvPiqIe9A~H.VSmprMmz[7=s?kU`LE~(Li?47oF<w]$X.Y',
     ],
 
     /*
@@ -177,7 +178,7 @@ return [
      *   breathing room to complete logging or error handling.
      */
     'Error' => [
-        'errorLevel' => E_ALL,
+        'errorLevel' => E_ALL & ~E_USER_DEPRECATED,
         'exceptionRenderer' => ExceptionRenderer::class,
         'skipLog' => [],
         'log' => true,

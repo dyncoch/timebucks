@@ -16,10 +16,8 @@ class CreateOffers extends AbstractMigration
     public function change()
     {
         $table = $this->table('offers');
-        $table->addColumn('id', 'integer', [
-            'autoIncrement' => true,
+        $table->addColumn('id', 'uuid', [
             'default' => null,
-            'limit' => 11,
             'null' => false,
         ]);
         $table->addColumn('name', 'string', [
