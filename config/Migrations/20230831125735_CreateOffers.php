@@ -16,13 +16,14 @@ class CreateOffers extends AbstractMigration
     public function change()
     {
         $table = $this->table('offers');
-        $table->addColumn('id', 'uuid', [
+        $table->addColumn('id', 'integer', [
+            'autoIncrement' => true,
             'default' => null,
             'null' => false,
+            'limit' => 11
         ]);
-        $table->addColumn('name', 'string', [
+        $table->addColumn('name', 'text', [
             'default' => null,
-            'limit' => 255,
             'null' => false,
         ]);
         $table->addColumn('requirements', 'text', [
@@ -33,11 +34,19 @@ class CreateOffers extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $table->addColumn('ecpc', 'double', [
+        $table->addColumn('epc', 'double', [
             'default' => null,
             'null' => false,
         ]);
         $table->addColumn('click_url', 'text', [
+            'default' => null,
+            'null' => false,
+        ]);
+        $table->addColumn('support_url', 'text', [
+            'default' => null,
+            'null' => false,
+        ]);
+        $table->addColumn('preview_url', 'text', [
             'default' => null,
             'null' => false,
         ]);
