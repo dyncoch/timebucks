@@ -31,7 +31,7 @@ class OffersController extends AppController
         $key = Configure::read('Security.encryptionKey');
 
         // Get the offers
-        $encryptedOffers = $this->paginate($this->Offers);
+        $encryptedOffers = $this->Offers->find('all');
 
         // Decrypt the offers
         $offers = [];
