@@ -1,51 +1,72 @@
-# CakePHP Application Skeleton
+# Timebucks - Assignment - Lucas Fonseca Martins
 
-[![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
+This project was developed based on a given assignment to showcase the integration of backend, frontend, and database systems. It retrieves, encrypts, stores, and displays data using the technology stack mentioned below.
 
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 3.x.
+## Technology Stack
 
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+- **Backend**: Cakephp 3.0+
+- **Frontend**: Jquery Datatables, Bootstrap
+- **Database**: MySQL
 
-## Installation
+## Local Enviroment
+- **PHP**: 7.4.33
+- **MySQL**: 5.7.39
+- **WebServer**: MAMP PRO
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+## Features
 
-If Composer is installed globally, run
+### 1. Data Fetching and Storing:
+- A cron job/command has been implemented to fetch data from the provided API.
+- The fetched data is encrypted and stored in a MySQL database table.
 
-```bash
-composer create-project --prefer-dist "cakephp/app:^3.8"
-```
+### 2. Data Display:
+- A web page retrieves the stored data, decrypts it, and displays it using Jquery DataTables.
+- The table contains columns for the name, requirements, description, ecpc (displayed as double), and a clickable URL (click_url).
 
-In case you want to use a custom app dir name (e.g. `/myapp/`):
+### 3. Functionalities:
+- Only the ECPC column is sortable.
+- A search box at the top allows searching by the "name". AutuSuggest functionality is added for better user experience.
+- The application is a single-page app without any login/signup mechanism.
 
-```bash
-composer create-project --prefer-dist "cakephp/app:^3.8" myapp
-```
+## Setup
 
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
+### Database:
 
-```bash
-bin/cake server -p 8765
-```
+- A DDL.sql file is included in the root directory to set up the necessary database and tables with some sample data.
 
-Then visit `http://localhost:8765` to see the welcome page.
+### Running the Cron:
 
-## Update
+- You can set up the cron job by following the instructions provided in the setup_cron.sh file.
 
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
+1. Open the setup_cron.sh file.
+2. Change the PROJECT_PATH variable to match the path of your project directory: PROJECT_PATH="/path-to-your-project".
+3. ./setup_cron.sh
 
-## Configuration
+### Deployment
+- Clone the repository and set it up on your local machine or server. Ensure the database configurations are correctly set in your CakePHP configuration.
 
-Read and edit `config/app.php` and setup the `'Datasources'` and any other
-configuration relevant for your application.
+### Encryption
+Utilizes the AES-256-CBC encryption algorithm to encrypt the provided data using a specified key. The function then combines the initialization vector (IV) and the encrypted data, encoding them using Base64, and returns the combined string.
 
-## Layout
+#### Location
+The encryption key used for data encryption and decryption is located in the app.php configuration file of the CakePHP application.
+Specifically, it is stored with the key name `encryptionKey`.
 
-The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) (v5) CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+In future iterations, I would consider leveraging the env() function to ensure the key's safety and confidentiality. I think this approach is out of the assigment scope.
+
+
+### Duration
+
+**Total Time Spent**: Approximately 8 hours
+
+#### Breakdown:
+
+- **Environment Setup (4 hours)**: I opted not to use Docker due to my laptop's performance constraints. This decision led me to downgrade my PHP version from 8.x to 7.4.33. Subsequently, I utilized Composer to install CakePHP. Given my unfamiliarity with CakePHP, I had to dedicate a substantial amount of time to peruse its documentation.
+
+- **Data Fetching & Database Design (30 minutes)**: I allocated half an hour to retrieve data from the provided API and design the database schema.
+
+- **Troubleshooting (2 hours)**: Encountered challenges with CakePHP's beforeSave method, which took around two hours to resolve.
+
+- **Encryption Implementation (10 minutes)**: I dedicated a short duration to craft my encryption class.
+
+- **Frontend & Documentation (1 hour)**: The final stages involved frontend development and drafting documentation, which cumulatively took an hour.
