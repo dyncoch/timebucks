@@ -26,7 +26,8 @@
         let table = $('#offersTable').DataTable({
             "columnDefs": [
                 { "orderable": false, "targets": [0,1,2,4] }
-            ]
+            ],
+            "order": []  // This removes default ordering
         });
 
         let names = <?= json_encode(array_column($offers, 'name')) ?>;
