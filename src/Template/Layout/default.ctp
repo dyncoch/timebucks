@@ -14,7 +14,7 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Timebucks Assignment - Lucas Fonseca Martins';
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,6 +76,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('content') ?>
     </div>
     <footer>
+        Lucas Fonseca Martins - Timebucks Assignment - 2023
     </footer>
 </body>
 </html>

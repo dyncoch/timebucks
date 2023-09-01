@@ -1,9 +1,14 @@
 <?php
+/**
+ * This script is used to fetch data from the API and save it to the database.
+ * It is meant to be run from the command line.
+ * @command: bin/cake fetch_offers fetchData
+ * @author Lucas Fonseca Martins
+ */
 namespace App\Shell;
 
 use Cake\Console\Shell;
 use Cake\Http\Client;
-use Cake\ORM\TableRegistry;
 use App\Model\Table\Offers;
 
 /**
@@ -11,14 +16,21 @@ use App\Model\Table\Offers;
  */
 class FetchOffersShell extends Shell
 {
+    private $Offers;
 
-
-    public function initialize() {
+    /**
+     * Offers table
+     */
+    public function initialize(): void {
         parent::initialize();
         $this->Offers = $this->loadModel(Offers::class);
-        //debug($this->Offers);
     }
 
+    /**
+     * Parse and save the data received from the API
+     * @param $jsonData
+     * @return void
+     */
     public function parseAndSaveData($jsonData) {
 
         // Check encoding and convert to UTF-8 if necessary
@@ -44,7 +56,7 @@ class FetchOffersShell extends Shell
                 'name' => $offer['name'],
                 'requirements' => $offer['requirements'],
                 'description' => $offer['description'],
-                'epc' => $offer['epc'], // Rename the field to match the DB column name
+                'epc' => $offer['epc'],
                 'click_url' => $offer['click_url'],
                 'support_url' => $offer['support_url'],
                 'preview_url' => $offer['preview_url'],
@@ -70,6 +82,10 @@ class FetchOffersShell extends Shell
         $this->out("Data parsed and saved successfully.");
     }
 
+    /**
+     * Fetch data from the API
+     * @return void
+     */
     public function fetchData() {
 
         $http = new Client();
@@ -82,9 +98,9 @@ class FetchOffersShell extends Shell
 
         if ($response->isOk()) {
             // If the response is OK, parse and save the data
-            $this->parseAndSaveData($response->body());
+            $this->parseAndSaveData($response->getStringBody());
         } else {
-            $this->out("Failed to fetch data from API. Status Code: " . $response->code);
+            $this->out("Failed to fetch data from API. Status Code: " . $response->getStatusCode());
         }
     }
 
@@ -95,9 +111,22 @@ class FetchOffersShell extends Shell
      *
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
-    {
+    public function getOptionParser(): \Cake\Console\ConsoleOptionParser {
         $parser = parent::getOptionParser();
+
+        $parser->setDescription([
+            'FetchOffersShell is a command line utility to fetch offers from the API',
+            'and save them to the database.',
+        ])
+            ->addSubcommand('fetchData', [
+                'help' => 'Fetches data from the API and saves to the database.',
+                'parser' => [
+                    'description' => [
+                        'This command fetches data from the specified API and then parses',
+                        'and saves this data to the offers table in the database.'
+                    ]
+                ]
+            ]);
 
         return $parser;
     }

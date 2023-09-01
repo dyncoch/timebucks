@@ -1,4 +1,8 @@
 <?php
+/**
+ * Offers Model
+ * @author Lucas Fonseca Martins
+ */
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -104,14 +108,22 @@ class Offers extends Table
         return $validator;
     }
 
+    /**
+     * Before saving an entity encrypt the fields
+     * @param Event $event
+     * @param Entity $entity
+     * @param $options
+     * @return void
+     */
     public function beforeSave(Event $event, Entity $entity, $options) {
 
+        // Get the key
         $key = Configure::read('Security.encryptionKey');
 
+        // Encrypt the fields
         $entity->name = $this->encrypt($entity->name, $key);
         $entity->requirements = $this->encrypt($entity->requirements, $key);
         $entity->description = $this->encrypt($entity->description, $key);
-        //$entity->epc = $this->encrypt($entity->epc, $key);
         $entity->click_url = $this->encrypt($entity->click_url, $key);
         $entity->support_url = $this->encrypt($entity->support_url, $key);
         $entity->preview_url = $this->encrypt($entity->preview_url, $key);

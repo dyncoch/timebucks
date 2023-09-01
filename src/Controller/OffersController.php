@@ -1,4 +1,9 @@
 <?php
+/**
+ * Offers Controller
+ * @author Lucas Fonseca Martins
+ */
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -25,12 +30,11 @@ class OffersController extends AppController
         // Get the key
         $key = Configure::read('Security.encryptionKey');
 
+        // Get the offers
         $encryptedOffers = $this->paginate($this->Offers);
 
+        // Decrypt the offers
         $offers = [];
-
-
-
         foreach ($encryptedOffers as $offer) {
             $offers[] = [
                 'name' => html_entity_decode($this->decrypt($offer->name, $key), ENT_QUOTES, 'UTF-8'),
@@ -41,6 +45,7 @@ class OffersController extends AppController
             ];
         }
 
+        // Set the offers to the view
         $this->set(compact('offers'));
     }
 
