@@ -20,6 +20,13 @@ class FetchOffersShell extends Shell
     }
 
     public function parseAndSaveData($jsonData) {
+
+        // Check encoding and convert to UTF-8 if necessary
+        $encoding = mb_detect_encoding($jsonData, ['UTF-8', 'UTF-16', 'UTF-32'], true);
+        if ($encoding != 'UTF-8') {
+            $jsonData = mb_convert_encoding($jsonData, 'UTF-8', $encoding);
+        }
+
         // Decode JSON data
         $data = json_decode($jsonData, true);
 

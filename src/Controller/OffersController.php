@@ -28,13 +28,16 @@ class OffersController extends AppController
         $encryptedOffers = $this->paginate($this->Offers);
 
         $offers = [];
+
+
+
         foreach ($encryptedOffers as $offer) {
             $offers[] = [
-                'name' => $this->decrypt($offer->name, $key),
-                'requirements' => $this->decrypt($offer->requirements, $key),
-                'description' => $this->decrypt($offer->description, $key),
-                'ecpc' => $offer->epc,
-                'click_url' => $this->decrypt($offer->click_url, $key)
+                'name' => html_entity_decode($this->decrypt($offer->name, $key), ENT_QUOTES, 'UTF-8'),
+                'requirements' => html_entity_decode($this->decrypt($offer->requirements, $key), ENT_QUOTES, 'UTF-8'),
+                'description' => html_entity_decode($this->decrypt($offer->description, $key), ENT_QUOTES, 'UTF-8'),
+                'ecpc' => $offer->epc, // epc is already a number and doesn't need decoding.
+                'click_url' => html_entity_decode($this->decrypt($offer->click_url, $key), ENT_QUOTES, 'UTF-8')
             ];
         }
 
